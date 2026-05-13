@@ -349,11 +349,17 @@
       margin-top: 4px;
     }
 
+    .corner{
+      position: relative;
+      width: 100%;
+      border: 1px solid #ccc;
+    }
+
     /* ── BOTON TRANSFERENCIA ──────────────────────────── */
     .transfer-btn {
-      position: absolute;
-      top: 16px; right: 16px;
-      background: rgba(255,255,255,.18);
+      position: fixed;
+      top: 20px; right: 20px;
+      background: rgba(0, 0, 0, 0.442);
       border: 2px solid rgba(255,255,255,.5);
       border-radius: 50px;
       color: #fff;
@@ -364,10 +370,10 @@
       text-decoration: none;
       display: flex; align-items: center; gap: 6px;
       transition: background .2s, transform .15s;
-      z-index: 10;
+      z-index: 1000;
     }
     .transfer-btn:hover {
-      background: rgba(255,255,255,.32);
+      background: rgba(255, 255, 255, 0.725);
       transform: translateY(-2px);
     }
 
@@ -405,9 +411,12 @@
     <!-- Borde superior -->
     <div class="border-strip"></div>
 
+    <div class="corner">
+      <a class="transfer-btn" href="transferencia.html">💳 Transferencia</a>
+    </div>
+
     <!-- Encabezado -->
     <div class="header">
-      <a class="transfer-btn" href="transferencia.html">💳 Transferencia</a>
       <div class="header-badge">✦ MENU ✦</div>
       <h1>Antojitos Flores</h1>
       <div class="header-sub">🇲🇽 COMIDA MEXICANA 🇲🇽</div>
