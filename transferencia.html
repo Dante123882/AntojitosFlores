@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transferencia - Antojitos Flores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosa:     #e8175d;
+      --teal:     #3ab5c6;
+      --amarillo: #f7a815;
+      --crema:    #fdf0dc;
+      --marfil:   #fff8ef;
+      --rojo:     #c0274a;
+      --verde:    #2db584;
+      --cafe:     #8b4a2b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--crema);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-x: hidden;
+    }
+
+    /* flores flotantes */
+    .petal {
+      position: fixed; font-size: 1.6rem; opacity: .15;
+      animation: float linear infinite;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes float {
+      0%   { transform: translateY(110vh) rotate(0deg); }
+      100% { transform: translateY(-10vh) rotate(360deg); }
+    }
+
+    /* ── CARD ─────────────────────────────────────────── */
+    .card {
+      position: relative; z-index: 1;
+      background: var(--marfil);
+      border-radius: 28px;
+      box-shadow: 0 10px 50px rgba(0,0,0,.18), 0 2px 10px rgba(0,0,0,.08);
+      border: 3px solid #e8d3b3;
+      overflow: hidden;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* borde de colores */
+    .border-strip {
+      height: 22px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--rosa)     0,  var(--rosa)     14px,
+        var(--teal)    14px, var(--teal)    28px,
+        var(--amarillo) 28px, var(--amarillo) 42px,
+        var(--verde)   42px, var(--verde)   56px
+      );
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    .header {
+      background: var(--teal);
+      padding: 28px 24px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before, .header::after {
+      content: '💳';
+      position: absolute;
+      font-size: 5rem;
+      opacity: .1;
+      animation: spin 10s linear infinite;
+    }
+    .header::before { top:-16px; left:-16px; }
+    .header::after  { bottom:-16px; right:-16px; animation-direction:reverse; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .back-btn {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: rgba(255,255,255,.2);
+      border: 2px solid rgba(255,255,255,.4);
+      border-radius: 50px;
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      padding: 5px 14px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 5px;
+      transition: background .2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,.35); }
+
+    .header-icon { font-size: 3rem; margin-bottom: 6px; display: block;
+      animation: bob 3s ease-in-out infinite; }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-5px); }
+    }
+    .header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.8rem;
+      color: #fff;
+      text-shadow: 2px 3px 0 rgba(0,0,0,.15);
+      margin-bottom: 4px;
+    }
+    .header p {
+      font-family: 'Fredoka One', cursive;
+      font-size: .9rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,.85);
+    }
+
+    /* ── BODY ───────────────────────────────────────── */
+    .body { padding: 32px 28px 28px; }
+
+    .banco-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .banco-pill {
+      background: linear-gradient(135deg, #e8175d, #c0104a);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      padding: 8px 24px;
+      border-radius: 50px;
+      letter-spacing: 3px;
+      box-shadow: 3px 3px 0 rgba(192,16,74,.3);
+    }
+
+    /* ── DATO ROW ───────────────────────────────────── */
+    .dato {
+      background: #fff;
+      border: 2px solid #edd8ba;
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: box-shadow .2s;
+    }
+    .dato:hover { box-shadow: 3px 3px 0 var(--teal); }
+
+    .dato-label {
+      font-size: .75rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--teal);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .dato-value {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.15rem;
+      color: var(--rojo);
+      letter-spacing: 1px;
+    }
+
+    /* cuenta especial */
+    .dato-cuenta .dato-value {
+      font-size: 1.4rem;
+      letter-spacing: 3px;
+    }
+
+    /* ── BOTON COPIAR ───────────────────────────────── */
+    .copy-btn {
+      flex-shrink: 0;
+      background: var(--amarillo);
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      color: var(--cafe);
+      cursor: pointer;
+      box-shadow: 2px 2px 0 rgba(0,0,0,.15);
+      transition: transform .15s, box-shadow .15s, background .2s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .copy-btn:hover  { transform: translateY(-2px); box-shadow: 2px 4px 0 rgba(0,0,0,.15); }
+    .copy-btn:active { transform: translateY(0); box-shadow: 1px 1px 0 rgba(0,0,0,.15); }
+    .copy-btn.copied {
+      background: var(--verde);
+      color: #fff;
+    }
+
+    /* ── NOTA ────────────────────────────────────────── */
+    .nota {
+      background: rgba(232,23,93,.07);
+      border-left: 4px solid var(--rosa);
+      border-radius: 0 12px 12px 0;
+      padding: 12px 16px;
+      font-size: .82rem;
+      color: var(--rojo);
+      font-weight: 700;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .gracias {
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      font-size: 1.2rem;
+      color: var(--amarillo);
+      margin-top: 22px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,.08);
+    }
+
+    @media (max-width: 480px) {
+      .dato-cuenta .dato-value { font-size: 1.1rem; letter-spacing: 2px; }
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  const emojis = ['💳','🌸','🌺','⭐','🎉','🌼','🪄'];
+  for (let i = 0; i < 14; i++) {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    el.textContent = emojis[i % emojis.length];
+    el.style.cssText = `left:${Math.random()*100}%;animation-duration:${9+Math.random()*14}s;animation-delay:${-Math.random()*20}s;font-size:${1+Math.random()*1.3}rem;`;
+    document.body.appendChild(el);
+  }
+</script>
+
+<div class="card">
+  <div class="border-strip"></div>
+
+  <div class="header">
+    <a class="back-btn" href="index.html">← Menú</a>
+    <span class="header-icon">💰</span>
+    <h1>Transferencia</h1>
+    <p>DATOS BANCARIOS</p>
+  </div>
+
+  <div class="border-strip"></div>
+
+  <div class="body">
+
+    <div class="banco-logo">
+      <span class="banco-pill">🏦 COMPARTAMOS</span>
+    </div>
+
+    <!-- Número de cuenta (con botón copiar) -->
+    <div class="dato dato-cuenta">
+      <div>
+        <div class="dato-label">Número de tarjeta</div>
+        <div class="dato-value" id="cuenta">130078002013406067</div>
+      </div>
+      <button class="copy-btn" id="btn-cuenta" onclick="copiar('cuenta','btn-cuenta')">
+        <span>📋</span><span>Copiar</span>
+      </button>
+    </div>
+
+    <!-- Nombre -->
+    <div class="dato">
+      <div>
+        <div class="dato-label">Nombre</div>
+        <div class="dato-value">Juan Flores</div>
+      </div>
+    </div>
+
+    <!-- Banco -->
+    <div class="dato">
+      <div>
+        <div class="dato-label">Banco</div>
+        <div class="dato-value">Compartamos</div>
+      </div>
+    </div>
+
+    <!-- CLABE (opcional - mismo número formateado) -->
+    <div class="dato">
+      <div>
+        <div class="dato-label">Concepto sugerido</div>
+        <div class="dato-value">Antojitos Flores</div>
+      </div>
+    </div>
+
+    <div class="nota">
+      📌 Al realizar tu transferencia, por favor esperar a la confirmacion de el pago. ¡Gracias por tu preferencia!
+    </div>
+
+    <div class="gracias">¡Buen provecho! 🌮</div>
+  </div>
+
+  <div class="border-strip"></div>
+</div>
+
+<script>
+  function copiar(idTexto, idBtn) {
+    const texto = document.getElementById(idTexto).innerText;
+    navigator.clipboard.writeText(texto).then(() => {
+      const btn = document.getElementById(idBtn);
+      btn.classList.add('copied');
+      btn.innerHTML = '<span>✅</span><span>¡Copiado!</span>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<span>📋</span><span>Copiar</span>';
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

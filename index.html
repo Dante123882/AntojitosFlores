@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú - Antojitos Flores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosa:     #e8175d;
+      --teal:     #3ab5c6;
+      --amarillo: #f7a815;
+      --crema:    #fdf0dc;
+      --marfil:   #fff8ef;
+      --rojo:     #c0274a;
+      --verde:    #2db584;
+      --cafe:     #8b4a2b;
+      --sombra:   rgba(0,0,0,.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--crema);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── PATRON OTOMI (fondo) ─────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(232,23,93,.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 80%, rgba(58,181,198,.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(247,168,21,.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* ── FLORES FLOTANTES ─────────────────────────────── */
+    .petal {
+      position: fixed; font-size: 1.6rem; opacity: .18;
+      animation: float linear infinite;
+      pointer-events: none; z-index: 0;
+      user-select: none;
+    }
+    @keyframes float {
+      0%   { transform: translateY(110vh) rotate(0deg); }
+      100% { transform: translateY(-10vh)  rotate(360deg); }
+    }
+
+    /* ── WRAPPER ──────────────────────────────────────── */
+    .wrapper {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── CARD PRINCIPAL ───────────────────────────────── */
+    .card {
+      background: var(--marfil);
+      border-radius: 24px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.10);
+      overflow: hidden;
+      border: 3px solid #e8d3b3;
+    }
+
+    /* ── BORDE DECORATIVO (patron geométrico) ─────────── */
+    .border-strip {
+      height: 28px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          var(--rosa)    0px, var(--rosa)    14px,
+          var(--teal)   14px, var(--teal)   28px,
+          var(--amarillo) 28px, var(--amarillo) 42px,
+          var(--verde)  42px, var(--verde)  56px
+        );
+      position: relative;
+      overflow: hidden;
+    }
+    .border-strip::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0, transparent 10px,
+          rgba(255,255,255,.3) 10px, rgba(255,255,255,.3) 14px
+        );
+    }
+
+    /* ── HEADER ───────────────────────────────────────── */
+    .header {
+      background: var(--rosa);
+      padding: 32px 24px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before, .header::after {
+      content: '🌸';
+      position: absolute;
+      font-size: 5rem;
+      opacity: .12;
+      animation: spin 8s linear infinite;
+    }
+    .header::before { top: -16px; left: -16px; }
+    .header::after  { bottom: -16px; right: -16px; animation-direction: reverse; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(255,255,255,.4);
+      border-radius: 50px;
+      padding: 4px 24px;
+      color: #ffe8f4;
+      font-family: 'Fredoka One', cursive;
+      font-size: .95rem;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,255,255,.3); }
+      50%      { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+    }
+
+    .header h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      color: #fff;
+      text-shadow: 3px 4px 0 rgba(0,0,0,.2);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .header-sub {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 5px;
+      color: #ffe0ef;
+    }
+
+    /* ── CUERPO ───────────────────────────────────────── */
+    .body { padding: 36px 32px 32px; }
+
+    /* ── GRID ─────────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    /* ── TITULO DE SECCION ────────────────────────────── */
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.75rem;
+      text-align: center;
+      padding: 8px 0 10px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .section-title::after {
+      content: '';
+      display: block;
+      height: 3px;
+      border-radius: 4px;
+      margin: 6px auto 0;
+      width: 70%;
+    }
+    .title-comidas { color: var(--teal); }
+    .title-comidas::after { background: var(--teal); }
+
+    .title-guisos { color: var(--rosa); }
+    .title-guisos::after { background: var(--rosa); }
+
+    .title-bebidas { color: var(--amarillo); }
+    .title-bebidas::after { background: var(--amarillo); }
+
+    /* ── ITEMS DE COMIDA ──────────────────────────────── */
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 10px 14px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      transition: transform .2s, background .2s, box-shadow .2s;
+      cursor: default;
+    }
+    .item:hover {
+      transform: translateX(5px) scale(1.02);
+      background: rgba(232,23,93,.06);
+      box-shadow: 2px 2px 12px rgba(232,23,93,.12);
+    }
+    .item-left { flex: 1; }
+    .item-name {
+      font-weight: 800;
+      font-size: .95rem;
+      color: var(--rojo);
+      line-height: 1.3;
+    }
+    .item-desc {
+      display: block;
+      font-size: .75rem;
+      color: #a07050;
+      margin-top: 2px;
+      font-style: italic;
+    }
+    .item-price {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--cafe);
+      background: rgba(247,168,21,.18);
+      border: 1.5px solid rgba(247,168,21,.5);
+      border-radius: 8px;
+      padding: 1px 8px;
+      white-space: nowrap;
+      margin-left: 10px;
+      transition: background .2s;
+    }
+    .item:hover .item-price {
+      background: rgba(247,168,21,.35);
+    }
+
+    /* ── GUISOS LIST ──────────────────────────────────── */
+    .guisos-list {
+      list-style: none;
+      padding: 0;
+    }
+    .guisos-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: .92rem;
+      color: var(--rojo);
+      margin-bottom: 4px;
+      transition: background .2s, transform .2s;
+      cursor: default;
+    }
+    .guisos-list li::before {
+      content: '🌶️';
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+    .guisos-list li:hover {
+      background: rgba(232,23,93,.07);
+      transform: translateX(6px);
+    }
+
+    /* ── TEMPORADA ────────────────────────────────────── */
+    .temporada-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, var(--rosa), #c0104a);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin: 14px 0 10px;
+      box-shadow: 2px 2px 8px rgba(232,23,93,.3);
+    }
+
+    .guisos-temporada li::before { content: '🌺'; }
+    .guisos-temporada li { color: var(--rosa); }
+
+    /* ── SEPARADOR ────────────────────────────────────── */
+    .divider {
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg, var(--crema) 0, var(--crema) 6px,
+        var(--amarillo) 6px, var(--amarillo) 12px
+      );
+      border-radius: 2px;
+      margin: 28px 0 20px;
+    }
+
+    /* ── OLLA DECORATIVA ──────────────────────────────── */
+    .olla-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+      animation: bob 3s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    .footer {
+      background: linear-gradient(135deg, #fdf0dc 0%, #fce5c8 100%);
+      border-top: 3px dashed #e8d3b3;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .bank-box {
+      background: #fff;
+      border-radius: 14px;
+      border: 2px solid var(--teal);
+      padding: 14px 20px;
+      box-shadow: 3px 3px 0 var(--teal);
+    }
+    .bank-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      letter-spacing: 2px;
+      color: var(--teal);
+      margin-bottom: 4px;
+    }
+    .bank-number {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.35rem;
+      color: var(--rojo);
+      letter-spacing: 2px;
+    }
+    .bank-name {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--teal);
+      margin-top: 2px;
+    }
+
+    .rules {
+      text-align: right;
+      font-size: .82rem;
+      color: var(--rojo);
+      font-weight: 700;
+      line-height: 1.8;
+    }
+    .gracias {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.1rem;
+      color: var(--amarillo);
+      text-shadow: 1px 1px 0 rgba(0,0,0,.1);
+      margin-top: 4px;
+    }
+
+    /* ── BOTON TRANSFERENCIA ──────────────────────────── */
+    .transfer-btn {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: rgba(255,255,255,.18);
+      border: 2px solid rgba(255,255,255,.5);
+      border-radius: 50px;
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: .85rem;
+      padding: 7px 16px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: background .2s, transform .15s;
+      z-index: 10;
+    }
+    .transfer-btn:hover {
+      background: rgba(255,255,255,.32);
+      transform: translateY(-2px);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────── */
+    @media (max-width: 600px) {
+      .body { padding: 24px 18px 24px; }
+      .grid { grid-template-columns: 1fr; gap: 20px; }
+      .footer { flex-direction: column; text-align: center; }
+      .rules { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Flores flotantes de fondo -->
+<script>
+  const emojis = ['🌸','🌺','🌼','🌻','🎉','⭐','🌶️','🪄'];
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    el.textContent = emojis[i % emojis.length];
+    el.style.cssText = `
+      left: ${Math.random()*100}%;
+      animation-duration: ${8 + Math.random()*14}s;
+      animation-delay: ${-Math.random()*20}s;
+      font-size: ${1.2 + Math.random()*1.4}rem;
+    `;
+    document.body.appendChild(el);
+  }
+</script>
+
+<div class="wrapper">
+  <div class="card">
+
+    <!-- Borde superior -->
+    <div class="border-strip"></div>
+
+    <!-- Encabezado -->
+    <div class="header">
+      <a class="transfer-btn" href="transferencia.html">💳 Transferencia</a>
+      <div class="header-badge">✦ MENU ✦</div>
+      <h1>Antojitos Flores</h1>
+      <div class="header-sub">🇲🇽 COMIDA MEXICANA 🇲🇽</div>
+    </div>
+
+    <!-- Borde inferior del header -->
+    <div class="border-strip"></div>
+
+    <!-- Cuerpo -->
+    <div class="body">
+      <div class="grid">
+
+        <!-- COLUMNA IZQUIERDA -->
+        <div>
+          <div class="section-title title-comidas">🍽️ Comidas</div>
+
+          <div class="item">
+            <div class="item-left"><span class="item-name">Gorditas y Tacos de harina y maíz</span></div>
+            <span class="item-price">$25</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Enchiladas</span></div>
+            <span class="item-price">$120</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Flautas de pollo</span></div>
+            <span class="item-price"></span>
+          </div>
+          <div class="item">
+            <div class="item-left">
+              <span class="item-name">Chiles rellenos de picadillo</span>
+              <span class="item-desc">acompañado de frijoles, sopa de arroz y asado rojo</span>
+            </div>
+            <span class="item-price">$160</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Burritos</span></div>
+            <span class="item-price">$80</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Quesadillas</span></div>
+            <span class="item-price">$35</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Menudo</span></div>
+            <span class="item-price">$160</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Cabrito en fritada</span></div>
+            <span class="item-price">$300</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-title title-bebidas">🥤 Bebidas</div>
+
+          <div class="item">
+            <div class="item-left"><span class="item-name">Agua fresca de litro</span></div>
+            <span class="item-price">$50</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Refresco</span></div>
+            <span class="item-price">$30</span>
+          </div>
+
+          <div class="temporada-badge">❄️ Para Temporada de Invierno</div>
+
+          <div class="item">
+            <div class="item-left"><span class="item-name">Café</span></div>
+            <span class="item-price">$30</span>
+          </div>
+          <div class="item">
+            <div class="item-left"><span class="item-name">Champurrado</span></div>
+            <span class="item-price">$30</span>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+        <div>
+          <div class="section-title title-guisos">🥘 Guisos</div>
+
+          <ul class="guisos-list">
+            <li>Picadillo</li>
+            <li>Deshebrada</li>
+            <li>Chicharrón</li>
+            <li>Asado Rojo</li>
+            <li>Discada</li>
+            <li>Chile con queso</li>
+            <li>Bistec con papas</li>
+            <li>Huevo con chile rojo</li>
+            <li>Nopales con huevo</li>
+            <li>Huevo con jamón</li>
+          </ul>
+
+          <div class="temporada-badge">🌿 Por Temporada</div>
+
+          <ul class="guisos-list guisos-temporada">
+            <li>Huitlacoche</li>
+            <li>Flor de calabaza</li>
+            <li>Flor de palma</li>
+          </ul>
+
+          <!-- Olla decorativa SVG -->
+          <div class="olla-wrapper">
+            <svg width="120" height="140" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- sombra -->
+              <ellipse cx="60" cy="136" rx="38" ry="6" fill="rgba(0,0,0,.12)"/>
+              <!-- cuerpo olla -->
+              <path d="M20 55 Q15 95 25 115 Q38 130 60 130 Q82 130 95 115 Q105 95 100 55 Z" fill="#d4572a"/>
+              <!-- rayas decorativas -->
+              <path d="M22 68 Q60 75 98 68" stroke="#b8451f" stroke-width="2.5" fill="none"/>
+              <path d="M20 80 Q60 88 100 80" stroke="#b8451f" stroke-width="2.5" fill="none"/>
+              <path d="M20 92 Q60 100 100 92" stroke="#b8451f" stroke-width="2.5" fill="none"/>
+              <path d="M22 104 Q60 111 98 104" stroke="#b8451f" stroke-width="2.5" fill="none"/>
+              <!-- brillo -->
+              <path d="M30 62 Q34 90 32 112" stroke="rgba(255,220,190,.5)" stroke-width="4" stroke-linecap="round"/>
+              <!-- cuello -->
+              <rect x="30" y="40" width="60" height="18" rx="9" fill="#c04e25"/>
+              <!-- boca -->
+              <ellipse cx="60" cy="40" rx="30" ry="9" fill="#b8451f"/>
+              <ellipse cx="60" cy="40" rx="25" ry="6" fill="#e06030"/>
+              <!-- asa izquierda -->
+              <path d="M20 70 Q5 70 5 85 Q5 100 20 100" stroke="#c04e25" stroke-width="8" fill="none" stroke-linecap="round"/>
+              <!-- asa derecha -->
+              <path d="M100 70 Q115 70 115 85 Q115 100 100 100" stroke="#c04e25" stroke-width="8" fill="none" stroke-linecap="round"/>
+              <!-- vaso pequeño -->
+              <rect x="66" y="108" width="22" height="28" rx="4" fill="#e8a87c" opacity=".9"/>
+              <rect x="66" y="108" width="22" height="8" rx="4" fill="#d4764a" opacity=".8"/>
+              <rect x="68" y="116" width="18" height="2" rx="1" fill="#f0c8a0" opacity=".6"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="rules" style="width:100%; text-align:center;">
+        <div>🚫 Prohibida la entrada con alimentos y bebidas</div>
+        <div>🧾 No se hacen cuentas por separado</div>
+        <div class="gracias">¡Gracias por su preferencia! 🌸</div>
+      </div>
+    </div>
+
+    <!-- Borde inferior -->
+    <div class="border-strip"></div>
+
+  </div>
+</div>
+
+</body>
+</html>
